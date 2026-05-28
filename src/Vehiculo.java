@@ -1,5 +1,6 @@
 
 public class Vehiculo {
+    //protegidos
     protected String tipo;
     protected double consumoGasolina;
     protected double valorPasaje;
@@ -17,22 +18,41 @@ public class Vehiculo {
         this.capacidadMax = capacidadMax;
         this.peaje = peaje;
     }
-// calculo gasto gasolina
+// calculo gasto gasolina / km x galon
     public double gastoGasolina (Rutas ruta, int pasajeros, boolean esAutopista) {
         
-        double gasto = ruta.getDistancia() * consumoGasolina;
-
-        if (esAutopista){
+        double gasto = ruta.obDistancia() / consumoGasolina;
+        
+//recargo de pasajeros
+        gasto += recargoPasajeros (pasajeros, esAutopista);
+        
+//recargo por marcha
+        gasto += recargoMarchas (ruta);
+//peaje i es autopista
+        if (esAutopista) {
             gasto += peaje;
         }
-        return gastos;
+        return gasto;
+    }
+//sobreescritura para clases herederas
+    public double recargoPasajeros (int pasajeros, boolean esAutopista) {
+        return 0;
+    }
+//calculo recargo por marchas
+    public double recargoMarchas (Rutas ruta) {
+        double recargo = 0;
+        recargo += ruta.obKmMarcha1() * 0.03;
+        recargo += ruta.obKmMarcha2() * 0.02;
+        recargo += ruta.obKmMarcha3() * 0.01;
+        
+        return recargo;
     }
     //calculo ingreos
-    public double calcularIngresos (int pasajeros) {
+    public double ingresos (int pasajeros) {
         return pasajeros * valorPasaje;
     }
     //calculo rentabilidad
-    public double calRentabilidad (double ingreos, double gastos) {
+    public double rentabilidad (double ingreos, double gastos) {
         return ingresos - gastos;
     }
     //Obtencion y Modificacion de datos
