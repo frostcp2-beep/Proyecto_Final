@@ -28,10 +28,9 @@ public class Vehiculo {
         
 //recargo por marcha
         gasto += recargoMarchas (ruta);
-//peaje i es autopista
-        if (esAutopista) {
-            gasto += peaje;
-        }
+//peaje por rutas
+        gasto += peaje;
+        
         return gasto;
     }
 //sobreescritura para clases herederas
