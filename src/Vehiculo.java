@@ -1,13 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/**
- *
- * @author xdpor
- */
 public class Vehiculo {
-    
+    protected String tipo;
+    protected double consumoGasolina;
+    protected double valorPasaje;
+    protected int capacidadMax;
+    protected double peaje;
+
+    public vehiculo(){
+    }
+    public vehiculo(String tipo, double consumoGasolina, double valorPasaje, int capacidadMax, double peaje){
+        
 }
