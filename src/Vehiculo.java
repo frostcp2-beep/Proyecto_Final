@@ -32,7 +32,7 @@ public class Vehiculo {
         return pasajeros * valorPasaje;
     }
     //calculo rentabilidad
-    public double calRentabilidad (double ingreos, double gastos) {
+    public double calRentabilidad (double ingresos, double gastos) {
         return ingresos - gastos;
     }
     //Obtencion y Modificacion de datos
