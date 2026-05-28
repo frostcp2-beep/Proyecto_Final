@@ -1,8 +1,8 @@
 
 public class Ruta {
     private String nombreRuta;
-    private int valorPeaje;
-    private int marcha;
+    private double distancia;
+    private boolean autopista;
 
     public double distancia;
     public boolean autopista;
