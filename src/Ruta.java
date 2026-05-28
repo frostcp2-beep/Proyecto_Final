@@ -25,5 +25,14 @@ public class Ruta {
     public boolean isAutopista(){
         return autopista;
     }
+    public double obKmMarcha1() {
+        return kmMarcha1;
+    }
+    public double obKmMarcha2() {
+        return kmMarcha2;
+    }
+    public double obKmMarcha3() {
+        return kmMarcha3;
+    }
     
 }
