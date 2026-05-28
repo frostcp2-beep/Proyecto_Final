@@ -1,5 +1,5 @@
 
-public class Ruta {
+public class Rutas {
     private String nombreRuta;
     private double distancia;
     private boolean autopista;
