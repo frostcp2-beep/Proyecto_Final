@@ -32,9 +32,40 @@ public class Vehiculo {
         return pasajeros * valorPasaje;
     }
     //calculo rentabilidad
-    public double calcularRentabilidad (double ingreos, double gastos) {
+    public double calRentabilidad (double ingreos, double gastos) {
         return ingresos - gastos;
     }
-    
+    //Obtencion y Modificacion de datos
+    public String obTipo() {
+        return tipo;
+    }
+    public void modTipo (String tipo) {
+        this.tipo = tipo;
+    }
+    public double obConsumoGasolina() {
+        return consumoGasolina;
+    }
+    public void modConsumoGasolina (double consumoGasolina) {
+        this.consumoGasolina = consumoGasolina;
+    }
+    public double obValorPasaje() {
+        return valorPasaje;
+    }
+    public void modValorPasaje (double valorPasaje) {
+        this.valorPasaje = valorPasaje;
+    }
+    public int obCapacidadMax() {
+        return capacidadMax;
+    }
+    public void modCapacidadMax (int capacidadMax) {
+        this.capacidadMax = capacidadMax;
+    }
+    public double obpeaje() {
+        return peaje;
+    }
+    public void modPeaje (double peaje) {
+        this.peaje = peaje;
+    }
+
     
 }
