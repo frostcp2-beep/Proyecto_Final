@@ -6,8 +6,7 @@ public class Vehiculo {
     protected int capacidadMax;
     protected double peaje;
 
-    public vehiculo(){
-    }
+
     //parametros
     public vehiculo (String tipo, double consumoGasolina, double valorPasaje, int capacidadMax, double peaje){
 
