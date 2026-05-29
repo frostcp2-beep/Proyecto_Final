@@ -21,9 +21,8 @@ public class Vehiculo {
         
         double gasto = ruta.getDistancia() * consumoGasolina;
 
-        if (esAutopista){
             gasto += peaje;
-        }
+        
         return gastos;
     }
     //calculo ingreos
@@ -34,6 +33,7 @@ public class Vehiculo {
     public double calRentabilidad (double ingresos, double gastos) {
         return ingresos - gastos;
     }
+   
     //Obtencion y Modificacion de datos
     public String obTipo() {
         return tipo;
