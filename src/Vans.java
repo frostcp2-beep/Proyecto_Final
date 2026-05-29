@@ -8,6 +8,6 @@
  *
  * @author xdpor
  */
-public class Vans {
+public class Vans extends Vehiculo{
     
 }
