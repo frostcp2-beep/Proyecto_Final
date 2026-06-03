@@ -34,15 +34,15 @@ public class Main {
         switch (opcionRuta) {
 
             case 1:
-                ruta = new Rutas("Medellin-Rionegro", 50, true,15,20,15);
+                ruta = new Rutas("Medellin-Rionegro", 45, true,15,20,10);
                 break;
 
             case 2:
-                ruta = new Rutas("Santa Elena",40, false, 0,0, 0);
+                ruta = new Rutas("Santa Elena",50, false, 0,0, 0);
                 break;
 
             case 3:
-                ruta = new Rutas("Las Palmas", 35,false,0,0, 0);
+                ruta = new Rutas("Las Palmas", 55,false,0,0, 0);
                 break;
 
             default:JOptionPane.showMessageDialog(null,"Ruta inválida");
@@ -50,11 +50,36 @@ public class Main {
         }
         // ORDEN DEL RECORRIDO
         int ordenRecorrido = Integer.parseInt(JOptionPane.showInputDialog("Seleccione el orden del recorrido:\n\n" + "1. SUBIDA → BAJADA\n" + "2. BAJADA → SUBIDA"));
+        
         // EVENTOS (SE PREGUNTA UNA VEZ)
-        int eventos = 0;
+        // EVENTOS DE SUBIDA
+        int eventosSubida = 0;
+        int[] kmSubida = null;
+
+        // EVENTOS DE BAJADA
+        int eventosBajada = 0;
+        int[] kmBajada = null;
+
         if (!(vehiculo instanceof Taxi)) {
-            eventos = Integer.parseInt(JOptionPane.showInputDialog( "¿Cuántos eventos desea manejar\n" + "para los 12 recorridos?"));
-        }
+
+            eventosSubida = Integer.parseInt( JOptionPane.showInputDialog("¿Cuántos eventos tiene SUBIDA?"));
+
+            kmSubida = new int[eventosSubida];
+
+            for (int i = 0; i < eventosSubida; i++) {
+
+             kmSubida[i] = Integer.parseInt(JOptionPane.showInputDialog("Km del evento " + (i + 1) + " de SUBIDA"));
+    }
+
+             eventosBajada = Integer.parseInt(JOptionPane.showInputDialog("¿Cuántos eventos tiene BAJADA?"));
+
+                kmBajada = new int[eventosBajada];
+
+                for (int i = 0; i < eventosBajada; i++) {
+
+                kmBajada[i] = Integer.parseInt(JOptionPane.showInputDialog("Km del evento " + (i + 1) + " de BAJADA"));
+    }
+}
         // CICLO DE 6 DIAS
         for (int dia = 1; dia <= 6; dia++) {
             // 2 recorridos por día
@@ -85,20 +110,42 @@ public class Main {
                         }
                     }
                     // EVENTOS
-                    for (int i = 1;i <= eventos; i++) {
-                        int km =Integer.parseInt(JOptionPane.showInputDialog("Día " + dia + "\n" + (esSubida ? "SUBIDA": "BAJADA")+ "\nEvento " + i+ "\nIngrese km donde suben pasajeros:"));
-                        boolean eventoCorrecto =false;
-                        while (!eventoCorrecto) {
-                            int nuevosPasajeros =Integer.parseInt(JOptionPane.showInputDialog("Día " + dia+ "\n" + (esSubida? "SUBIDA": "BAJADA") + "\nEvento " + i+ "\n¿Cuántos pasajeros suben en km " + km + "?"));
-                            // Validar capacidad
-                            if ((pasajeros + nuevosPasajeros)<= vehiculo.obCapacidadMax()) {
-                                pasajeros +=nuevosPasajeros;
-                                eventoCorrecto =true;
-                            } else {
-                                JOptionPane.showMessageDialog( null, "Capacidad excedida.\n" + "Ingrese nuevamente " + "el mismo evento.");
-                            }
-                        }
+                    int[] kmActual;
+                    int cantidadEventos;
+
+                    if (esSubida) {
+
+                    kmActual = kmSubida;
+                    cantidadEventos = eventosSubida;
+
+                    } else {
+
+                    kmActual = kmBajada;
+                    cantidadEventos = eventosBajada;
                     }
+
+                    for (int i = 0; i < cantidadEventos; i++) {
+
+                    int km = kmActual[i];
+
+                    boolean eventoCorrecto = false;
+
+                    while (!eventoCorrecto) {
+
+                    int nuevosPasajeros =Integer.parseInt(JOptionPane.showInputDialog( "Día " + dia+ "\n"+ (esSubida ? "SUBIDA" : "BAJADA")+ "\nEvento "+ (i + 1)+ " (Km " + km + ")"+ "\n¿Cuántos pasajeros suben?"));
+
+                         if ((pasajeros + nuevosPasajeros)
+                            <= vehiculo.obCapacidadMax()) {
+
+                        pasajeros += nuevosPasajeros;
+                        eventoCorrecto = true;
+
+                         } else {
+
+                             JOptionPane.showMessageDialog(null,"Capacidad excedida.\n" + "Ingrese nuevamente el mismo evento.");
+        }
+    }
+}
                 }
                 // CALCULOS
                 double gasto =vehiculo.calcularGastoGasolina(ruta,pasajeros,esSubida);
@@ -110,9 +157,10 @@ public class Main {
                 totalRentabilidad += rentabilidad;
             }
         }    
+        double promedioRentabilidad = totalRentabilidad / 12;
         // RESULTADO FINAL
         JOptionPane.showMessageDialog( null,"RESULTADO TOTAL DEL PERIODO\n\n" + "Vehículo: "+ vehiculo.obTipo() + "\nRuta: "+ ruta.obNombreRuta()+ "\nOrden del recorrido: "+ (ordenRecorrido == 1 ? "SUBIDA → BAJADA": "BAJADA → SUBIDA")
                 + "\n\nPeriodo evaluado: 6 días"+ "\nRecorridos realizados: 12"+ "\n\nIngresos Totales: $" + String.format("%.2f", totalIngresos)
-                + "\nGastos Totales: $"+ String.format("%.2f",totalGastos)+ "\nRentabilidad Total: $" + String.format("%.2f",totalRentabilidad));
+                + "\nGastos Totales: $"+ String.format("%.2f",totalGastos)+ "\nRentabilidad Total: $" + String.format("%.2f",totalRentabilidad)+ "\nPromedio de Rentabilidad: $"+ String.format("%.2f", promedioRentabilidad));
     }
 }
