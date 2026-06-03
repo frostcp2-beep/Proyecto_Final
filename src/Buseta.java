@@ -1,24 +1,15 @@
-
 public class Buseta extends Vehiculo {
 
-    // Constructor
     public Buseta() {
-
-        super("Buseta",30, 12000, 15, 22000);//el "SUPER" le dara los atributos a la plantilla "THIS" de la superclase
+        super("Buseta", 30, 12000, 15, 22000);
     }
 
-    // Recargo pasajeros
     @Override
-    public double calcularRecargoPasajeros(int pasajeros) {//aqui el override le da el parametro que va a utilizar este tipo
-
-        return pasajeros * 0.12;
-    }
-
-    // Recargo subida
-    @Override
-    public double calcularRecargoSubida( double gastoBase) {//aqui el override le da el parametro que va a utilizar este tipo
-
-        return gastoBase * 0.20;
+    public double calcularRecargoPasajeros(double gastoBase, int pasajeros, boolean esAutopista) {
+        if (esAutopista) {
+            return gastoBase * 0.12 * pasajeros; // 12% por persona en autopista
+        } else {
+            return gastoBase * 0.03 * pasajeros; // 3% por persona en otras rutas
+        }
     }
 }
-
