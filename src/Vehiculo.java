@@ -1,14 +1,14 @@
 public class Vehiculo {
 
-    // Atributos
+    private static final double VALOR_GALON_GASOLINA = 16000;
+
     protected String tipo;
     protected double consumoGasolina;
     protected double valorPasaje;
     protected int capacidadMax;
     protected double peaje;
 
-    // Constructor
-    public Vehiculo(String tipo,double consumoGasolina,double valorPasaje,int capacidadMax,double peaje) {
+    public Vehiculo(String tipo, double consumoGasolina, double valorPasaje, int capacidadMax, double peaje) {
 
         this.tipo = tipo;
         this.consumoGasolina = consumoGasolina;
@@ -17,76 +17,54 @@ public class Vehiculo {
         this.peaje = peaje;
     }
 
-    // Calcular gasto gasolina
     public double calcularGastoGasolina(Rutas ruta, int pasajeros, boolean esSubida) {
 
-        // Consumo base
-        double gasto =ruta.obDistancia()/ consumoGasolina;
+        double galones = ruta.obDistancia() / consumoGasolina;
 
-        // Recargo pasajeros
-        gasto += calcularRecargoPasajeros(pasajeros);
+        galones += calcularRecargoPasajeros(ruta, pasajeros, galones);
 
-        // Recargo por subida
-        if (esSubida) {
-
-            gasto += calcularRecargoSubida(gasto);
+        if (ruta.esAutopista() && esSubida) {
+            galones += calcularRecargoMarchas(ruta);
         }
 
-        // Marchas SOLO Medellin-Rionegro subida
-        if (ruta.obNombreRuta().equalsIgnoreCase("Medellin-Rionegro")&& esSubida) {//&& actua como un ^
-
-            gasto += calcularRecargoMarchas(ruta);
-        }
-
-        // Peaje en todas las rutas
-        gasto += peaje;
-
-        return gasto;
+        return (galones * VALOR_GALON_GASOLINA) + peaje;
     }
 
-    // Calcular ingresos
     public double calcularIngresos(int pasajeros) {
 
         return pasajeros * valorPasaje;
     }
 
-    // Calcular rentabilidad
     public double calcularRentabilidad(double ingresos, double gastos) {
 
         return ingresos - gastos;
     }
 
-    // Metodo para sobrescribir en hijos
-    public double calcularRecargoPasajeros(int pasajeros) {//esto es necesario para que el override funcione
+    public double calcularRecargoPasajeros(Rutas ruta, int pasajeros, double galonesBase) {
 
-        return 0;//se pone 0 porque cada tipo tiene parametros diferentes (“si nadie lo redefine, el recargo será 0”) el override le da el parametro que va a requerir
-
+        return galonesBase * obPorcentajeRecargoPasajero(ruta) * pasajeros;
     }
 
-    // Metodo para sobrescribir en hijos
-    public double calcularRecargoSubida(double gastoBase) {//esto es necesario para que el override funcione
+    public double obPorcentajeRecargoPasajero(Rutas ruta) {
 
-        return 0;//se pone 0 porque cada tipo tiene parametros diferentes (“si nadie lo redefine, el recargo será 0”) el override le da el parametro que va a requerir
+        return 0;
     }
 
-    // Marchas Medellin-Rionegro subida
-    public double calcularRecargoMarchas(Rutas ruta) {//esto es necesario para que el override funcione
+    public double calcularRecargoMarchas(Rutas ruta) {
 
-        double recargo = 0;//se pone 0 porque cada tipo tiene parametros diferentes (“si nadie lo redefine, el recargo será 0”) el override le da el parametro que va a requerir
+        double recargo = 0;
 
-        recargo += ruta.obKmMarcha1() * 0.03;
-        recargo += ruta.obKmMarcha2() * 0.02;
-        recargo += ruta.obKmMarcha3() * 0.01;
+        recargo += (ruta.obKmMarcha1() / consumoGasolina) * 0.03;
+        recargo += (ruta.obKmMarcha2() / consumoGasolina) * 0.02;
+        recargo += (ruta.obKmMarcha3() / consumoGasolina) * 0.01;
 
         return recargo;
     }
 
-    // Getters
-
     public String obTipo() {
         return tipo;
     }
-    
+
     public double obConsumoGasolina() {
         return consumoGasolina;
     }
